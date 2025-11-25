@@ -123,7 +123,7 @@ export default function Home() {
 
             {/* Navigation Menu */}
             <nav className="hidden md:flex items-center gap-8">
-              <a href="#" className="text-gray-700 hover:text-orange-600 transition-colors font-medium">
+              <a href="https://nyc-risk-predictor.vercel.app/" className="text-gray-700 hover:text-orange-600 transition-colors font-medium">
                 Main
               </a>
               <div className="h-6 w-px bg-gray-300"></div>
@@ -198,7 +198,7 @@ export default function Home() {
               Data: NYC Collision Dataset (2019–2024) — <span className="text-orange-600 font-medium">Mock data used for demo</span>
             </div>
             <div className="flex gap-6 items-center text-gray-600">
-              <a href="https://github.com" className="hover:text-orange-600 transition-colors font-medium" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/Fafromh0mee/nyc-risk-predictor" className="hover:text-orange-600 transition-colors font-medium" target="_blank" rel="noopener noreferrer">
                 GitHub
               </a>
               <span className="text-gray-400">|</span>
