@@ -56,14 +56,6 @@ Based on NYC Motor Vehicle Collisions dataset (2019-2024)
 - [ ] Real collision data
 - [ ] Deployment to production
 
-## Contributing
-
-Contributions welcome! Please open an issue or PR.
-
-## License
-
-MIT
-
 ## Developer
 
-Created by ฟา
+Created by Fafromh0me
