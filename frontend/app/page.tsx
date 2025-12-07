@@ -23,6 +23,7 @@ const MapView = dynamic(() => import("@/components/MapView"), {
 export default function Home() {
   const [center, setCenter] = useState<[number, number]>([40.758, -73.9855]);
   const [zoom, setZoom] = useState(12);
+  const [flyToKey, setFlyToKey] = useState(0); // Key to trigger flyTo only when needed
   const [points, setPoints] = useState<RiskPoint[]>([]);
   const [predicting, setPredicting] = useState(false);
   const [lastPrediction, setLastPrediction] = useState<RiskPoint | null>(null);
@@ -118,7 +119,8 @@ export default function Home() {
 
   const handleMapClick = (lat: number, lng: number) => {
     if (apiStatus !== "online") return;
-    setCenter([lat, lng]);
+    // Don't setCenter here - let the user freely navigate the map
+    // Only predict at the clicked location
     handlePredict(
       lat,
       lng,
@@ -180,6 +182,7 @@ export default function Home() {
 
     setCenter([lat, lng]);
     setZoom(15);
+    setFlyToKey((k) => k + 1); // Trigger flyTo
 
     const h = hour ?? currentHour;
     const d = dayOfWeek ?? currentDayOfWeek;
@@ -190,6 +193,7 @@ export default function Home() {
   const handleQuickLocation = (name: string, lat: number, lng: number) => {
     setCenter([lat, lng]);
     setZoom(15);
+    setFlyToKey((k) => k + 1); // Trigger flyTo
   };
 
   const handleUseLocation = () => {
@@ -204,6 +208,7 @@ export default function Home() {
         const lng = position.coords.longitude;
         setCenter([lat, lng]);
         setZoom(14);
+        setFlyToKey((k) => k + 1); // Trigger flyTo
 
         if (apiStatus === "online") {
           handlePredict(
@@ -224,6 +229,7 @@ export default function Home() {
   const handleClear = () => {
     setCenter([40.758, -73.9855]);
     setZoom(12);
+    setFlyToKey((k) => k + 1); // Trigger flyTo
     setLastPrediction(null);
     setPoints([]);
   };
@@ -527,7 +533,10 @@ export default function Home() {
                         className={`flex items-center gap-2 text-sm px-3 py-2 rounded-lg cursor-pointer hover:opacity-80 ${
                           i === 0 ? getRiskColor(p.level).light : "bg-gray-50"
                         }`}
-                        onClick={() => setCenter([p.lat, p.lng])}
+                        onClick={() => {
+                          setCenter([p.lat, p.lng]);
+                          setFlyToKey((k) => k + 1); // Trigger flyTo
+                        }}
                       >
                         <span>
                           {p.level === "high"
@@ -604,11 +613,9 @@ export default function Home() {
               <MapView
                 center={center}
                 zoom={zoom}
+                flyToKey={flyToKey}
                 points={points}
                 showHotspots={showHotspots}
-                onBoundsChange={(bounds, newZoom) => {
-                  setZoom(newZoom);
-                }}
                 onMapClick={handleMapClick}
               />
             </div>
